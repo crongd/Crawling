@@ -17,39 +17,55 @@ public class Main {
 //        System.out.println("Hello world!");
         WebDriver driver = new ChromeDriver();
 
-        Thread.sleep(3000);
+        Thread.sleep(1000);
 
         // 크롤링 주소
-        driver.get("https://www.coupang.com/np/categories/184060?page=2");
+        driver.get("https://www.coupang.com/np/categories/118878");
         // 필요한 영역
         WebElement webElement = driver.findElement(By.cssSelector("#productList"));
         List<WebElement> itemList = webElement.findElements(By.cssSelector(".renew-badge"));
 
-        StringBuilder csv = new StringBuilder();
-        csv.append("title, price, delivery_price, img, category \n");
+        StringBuilder product = new StringBuilder();
+        product.append("no, title, price, delivery_price, category \n");
+        StringBuilder productImg = new StringBuilder();
+        productImg.append("product_no, img \n");
+
+        int count = 1559;
+        int category = 4;
+        int category2 = 31;
 
         for(WebElement li : itemList) {
-            csv.append("\"").append(li.findElement(By.cssSelector(".name")).getText()).append("\"")
-                            .append(",")
-                            .append(li.findElement(By.cssSelector(".price-value")).getText())
-                            .append(",")
-                            .append("2000")
+            product.append(count)
+                    .append(",")
+                    .append("\"").append(li.findElement(By.cssSelector(".name")).getText()).append("\"")
+                    .append(",")
+                    .append(li.findElement(By.cssSelector(".price-value")).getText().replace(",", ""))
+                    .append(",")
+                    .append("3000")
+                    .append(",")
+                    .append(category2)
+                    .append("\n");
+
+            productImg.append(count)
                             .append(",")
                             .append(li.findElement(By.cssSelector("img")).getAttribute("src"))
-                            .append(",")
-                            .append("1")
                             .append("\n");
 
 
 
-            System.out.println(li.findElement(By.cssSelector(".name")).getText());
-            System.out.println(li.findElement(By.cssSelector(".price-value")).getText());
-            System.out.println(li.findElement(By.cssSelector("img")).getAttribute("src"));
-
+//            System.out.println(li.findElement(By.cssSelector(".name")).getText());
+//            System.out.println(li.findElement(By.cssSelector(".price-value")).getText());
+//            System.out.println(li.findElement(By.cssSelector("img")).getAttribute("src"));
+            count++;
         }
+        System.out.println(product);
+        String productPath = "src/"+category+"-"+category2+".csv";
 
-        String filePath = "src/자동차용품2.csv";
-        Files.writeString(Path.of(filePath), "\uFEFF" + csv, StandardCharsets.UTF_8, StandardOpenOption.CREATE);
+        String productImgPath = "src/"+category+"-"+category2+"img.csv";
+        Files.writeString(Path.of(productPath), "\uFEFF" + product, StandardCharsets.UTF_8, StandardOpenOption.CREATE);
+        Files.writeString(Path.of(productImgPath), "\uFEFF" + productImg, StandardCharsets.UTF_8, StandardOpenOption.CREATE);
+
+
 
 //        Files.writeString(Path.of(filePath), "\uFEFF" + csv.toString(), StandardCharsets.UTF_8, StandardOpenOption.CREATE);
 
@@ -89,5 +105,7 @@ public class Main {
 //        idInput.sendKeys("아이디 입니다.");
 //        pwInput.sendKeys("비밀번호 입니다.");
 //        idInput.sendKeys(Keys.ENTER);
+
+        driver.quit();
     }
 }
