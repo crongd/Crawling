@@ -8,5 +8,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="seleniumhq.selenium.java1" level="project" />
+    <orderEntry type="library" name="baomidou.mybatis.plus" level="project" />
   </component>
 </module>
