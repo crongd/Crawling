@@ -138,10 +138,13 @@ public class Main {
                 System.out.println(webElement2.size());
 //        List<WebElement> webElement1 = driver.findElements(By.cssSelector(".subType-TEXT"));
                 for (WebElement web : webElement2) {
-                    productImg.append(no)
-                            .append(",")
-                            .append(web.getAttribute("src"))
-                            .append("\n");
+                    if(!Objects.isNull(web.getAttribute("src"))) {
+                        productImg.append(no)
+                                .append(",")
+                                .append(web.getAttribute("src"))
+                                .append("\n");
+
+                    }
                 }
 
                 driver2.quit();
